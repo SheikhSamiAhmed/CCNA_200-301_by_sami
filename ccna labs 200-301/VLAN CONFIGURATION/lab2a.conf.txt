@@ -1,0 +1,65 @@
+enable
+configure terminal
+hostname SW1
+vlan 10
+name sales
+exit
+vlan 20
+name Hr 
+exit
+interface range fastEthernet 0/1-2
+switchport mode access
+switchport access vlan 10
+exit
+!
+interface range fastEthernet 0/3-4
+switchport mode access
+switchport access vlan 20
+exit
+!
+interface fastEthernet 0/5
+switchport mode access
+switchport access vlan 10 vlan 20
+exit
+!
+interface fastEthernet 0/6
+switchport mode access
+switchport access vlan 20
+exit
+do show vlan br
+
+
+
+
+for switch 2
+
+
+enable
+configure terminal
+hostname SW2
+vlan 10
+name sales
+exit
+vlan 20
+name Hr 
+exit
+interface range fastEthernet 0/1-2
+switchport mode access
+switchport access vlan 10
+exit
+!
+interface range fastEthernet 0/3-4
+switchport mode access
+switchport access vlan 20
+exit
+!
+interface fastEthernet 0/5
+switchport mode access
+switchport access vlan 10 
+exit
+!
+interface fastEthernet 0/6
+switchport mode access
+switchport access vlan 20
+exit
+do show vlan br

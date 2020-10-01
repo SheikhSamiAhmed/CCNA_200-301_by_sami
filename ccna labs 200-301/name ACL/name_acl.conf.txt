@@ -1,0 +1,73 @@
+Configuration:
+
+en
+config t
+hostname R1
+
+int g0/0
+ip add 192.168.1.1 255.255.255.0
+no sh
+
+int g0/1
+ip add 192.168.2.1 255.255.255.0
+no sh
+
+int g0/2
+ip add 192.168.3.1 255.255.255.0
+no sh
+
+router rip 
+ver 2
+no auto-summary
+network 192.168.3.0
+network 192.168.2.0
+network 192.168.1.0
+
+
+ip access-list extended abc
+permit tcp host 192.168.1.2 host 192.168.3.2 eq telnet 
+deny tcp 192.168.1.0 0.0.0.255 host 192.168.3.2 eq telnet 
+deny tcp host 192.168.2.2 host 192.168.3.2 eq telnet 
+
+
+permit icmp host 192.168.1.3 host 192.168.3.2 echo 
+permit icmp host 192.168.1.3 host 192.168.3.2 echo-reply
+deny icmp 192.168.1.0 0.0.0.255 host 192.168.3.2 echo 
+deny icmp 192.168.1.0 0.0.0.255 host 192.168.3.2 echo-reply
+deny icmp host 192.168.2.2 host 192.168.3.2 echo 
+deny icmp host 192.168.2.2 host 192.168.3.2 echo-reply
+permit ip any any
+
+int g0/2
+ip access-group abc out
+
+------------------------
+en
+config t
+hostname R2
+int g0/0
+ip add 192.168.3.2 255.255.255.0
+no sh
+
+enable password 12345
+
+router rip
+ver 2
+no auto-summary
+network 192.168.3.0
+exit
+line vty 0 4
+password cisco
+login
+
+
+
+
+1---configure telnet in R2
+2---check pc can telnet R2 and ping R2 and R2 from pc
+
+3--- configure nd apply name acl on router R1 as follows
+
+a) permit telnet from pc1 to R2 . telnet to R2 must be denied for other pc in the network
+
+permit ping from pc2 to R2 . ping to R2 denied for all network

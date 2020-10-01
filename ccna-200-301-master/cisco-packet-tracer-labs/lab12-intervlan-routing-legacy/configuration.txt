@@ -1,0 +1,55 @@
+!------------------
+!Configuration SW1:
+!------------------
+
+enable
+configure terminal
+!
+hostname SW1
+!
+vlan 10
+name SALES
+exit
+!
+vlan 20
+name IT
+exit
+!
+int range f0/1,f0/3
+switchport mode access
+switchport access vlan 10
+exit
+!
+int range f0/2,f0/4
+switchport mode access
+switchport access vlan 20
+exit
+!
+exit
+copy running-config startup-config
+
+!
+
+!------------------
+!Configuration R1:
+!------------------
+
+enable
+configure terminal
+!
+hostname R1
+!
+int f0/0
+ip address 192.168.10.1 255.255.255.0
+no shut
+exit
+!
+int f0/1
+ip address 192.168.20.1 255.255.255.0
+no shut
+exit
+!
+exit
+copy running-config startup-config
+
+!

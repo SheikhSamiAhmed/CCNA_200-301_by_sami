@@ -1,0 +1,42 @@
+en
+Config t 
+hostname R1 
+  
+int g0/0 
+ip add 1.1.1.1 255.0.0.0 
+no sh 
+  
+  
+int g0/1 
+ip add 192.168.1.1 255.255.255.0 
+no sh 
+  
+router rip 
+ver 2 
+no auto-summary 
+  
+network 192.168.1.0 
+network 1.1.1.0 
+
+Configuration for Router 2:
+en 
+Config t 
+hostname R2 
+int g0/0 
+ip add 1.1.1.2 255.0.0.0 
+no sh 
+  
+int g0/1 
+ip add 192.168.2.1 255.255.255.0 
+no sh 
+  
+router rip 
+ver 2 
+no auto-summary 
+network 192.168.2.0 
+network 1.1.1.0 
+  
+access-list 10 deny host 192.168.1.2 
+access-list 10 permit any 
+int g0/0
+ip access-group 10 in

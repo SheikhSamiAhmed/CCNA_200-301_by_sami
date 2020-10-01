@@ -1,0 +1,118 @@
+!--------------------
+!  sw0 configuration
+!--------------------
+enable
+configure terminal
+hostname SW0
+vlan 10
+name managemnet
+exit
+vlan 20
+name adminstrator
+exit
+interface range fastEthernet 0/1-2
+switchport mode access
+switchport access vlan 10
+exit
+!
+interface fastEthernet 0/3
+switchport mode access
+switchport access vlan 20
+exit
+!
+interface fastEthernet 0/4
+switchport mode trunk
+exit
+!
+do show vlan br
+
+
+
+!--------------------
+!  sw1 configuration
+!--------------------
+
+enable
+configure terminal
+hostname SW1
+vlan 20
+name adminstrator
+exit
+!
+interface fastEthernet 0/1
+switchport mode access
+switchport access vlan 20
+exit
+!
+interface range fastEthernet 0/4-5
+switchport mode trunk
+exit
+!
+do show vlan br
+
+
+!--------------------
+!  sw2 configuration
+!--------------------
+
+
+enable
+configure terminal
+hostname SW2
+vlan 10
+name managemnet
+exit
+interface range fastEthernet 0/1-2
+switchport mode access
+switchport access vlan 10
+exit
+!
+interface fastEthernet 0/5
+switchport mode trunk
+exit
+!
+do show vlan br
+
+
+
+
+Configuring VTP for switch SW0
+
+enable
+configure terminal
+vtp domain axiom.edu.pk
+vtp password 12345
+vtp mode server
+vtp version 2
+do show vtp status
+exit
+vlan 30 
+name axiom
+ex
+
+
+Configuring VTP for switch SW1
+
+enable
+configure terminal
+vtp domain axiom.edu.pk
+vtp password 12345
+vtp mode client
+vtp version 2
+do show vtp status
+
+
+Configuring VTP for switch SW2
+
+enable
+configure terminal
+vtp domain axiom.edu.pk
+vtp password 12345
+vtp mode client
+vtp version 2
+do show vtp status
+
+
+vlan 10 
+name axiom
+ex

@@ -1,0 +1,14 @@
+ R1 Configuration:
+ 
+ En
+ Config t
+ Hostname R1
+ Int f0/0
+ Ip add 192.168.1.1 255.255.255.0
+ No sh
+ 
+ Aaa new-model
+ Tacacs-server host 192.168.1.2 key abc123
+ aaa authentication login AAA group tacacs+
+ Line vty 0 1
+login authentication AAA

@@ -1,0 +1,105 @@
+
+R1
+
+
+-------------------------
+en
+config t
+hostname Branch1
+
+int g0/0
+ip add 192.168.1.1 255.255.255.0
+no sh
+
+int g0/1
+ip add 192.168.3.1 255.255.255.0
+no sh
+
+router rip 
+version 2
+no auto-summary
+network 192.168.1.0 
+network 192.168.3.0
+ex
+ip route 0.0.0.0 0.0.0.0 192.168.3.2
+ex
+
+
+
+
+
+
+R2
+
+
+-------------------------
+en
+config t
+hostname Branch2
+
+int g0/2
+ip add 192.168.2.1 255.255.255.0
+no sh
+ex
+
+int g0/0
+ip add 192.168.3.2 255.255.255.0
+no sh
+ex
+
+int g0/1
+ip add 12.12.12.1 255.0.0.0 
+no sh
+ex
+
+
+router rip 
+version 2
+no auto-summary
+network 192.168.2.0 
+network 192.168.3.0
+ex
+
+ip route 0.0.0.0 0.0.0.0 12.12.12.2
+
+
+access-list 1 permit 192.168.1.0 0.0.0.255
+access-list 1 permit 192.168.2.0 0.0.0.255
+int g0/1
+ip access-group 1 in
+ex
+
+int g0/0
+ip nat inside
+ex
+
+int g0/2
+ip nat inside
+ex
+
+int g0/1
+ip nat outside
+ex
+ip nat inside source list 1 int g0/1 overload
+
+
+
+
+R3
+
+--------------------------------
+en
+config t
+hostname ISP
+
+int g0/0
+ip add 12.12.12.2 255.0.0.0 
+no sh
+ex
+
+int loopback 0
+ip add 8.8.8.8 255.0.0.0
+ex
+
+
+

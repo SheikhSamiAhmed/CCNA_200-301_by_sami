@@ -1,0 +1,59 @@
+
+pagp configuration on S1
+
+
+
+en
+config t
+hostname sw1
+
+int range fa0/1-4
+channel-group 1 mode desirable
+
+
+
+
+pagp configuration ON S2
+
+
+
+en
+config t
+hostname sw2
+
+int range fa0/1-4
+channel-group 1 mode desirable
+
+
+
+
+
+
+
+--------------------------------------------------------]
+
+
+Lacp configuration on S1
+
+
+
+en
+config t
+hostname sw1
+
+int range fa0/1-4
+channel-group 1 mode active
+
+
+
+
+pagp configuration ON S2
+
+
+
+en
+config t
+hostname sw2
+
+int range fa0/1-4
+channel-group 1 mode active
